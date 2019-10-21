@@ -1,13 +1,30 @@
 # README
 
-Following command was used to generate rails app:
+In this step we will generate controller using followint command:
+###Step 1:
+$>rails generate controller Welcome home about
 
-rails new amazing_amazon -T -d postgresql –skip-turbolinks
+Above command will generate a welcome controller with home and about action.
 
--T, [--skip-test], [--no-skip-test]                        # Skip test files
--d, [--database=DATABASE]                                  # Preconfigure for selected database (options: mysql/postgresql/sqlite3/oracle/frontbase/ibm_db/sqlserver/jdbcmysql/jdbcsqlite3/jdbcpostgresql/jdbc)
--J, [--skip-javascript], [--no-skip-javascript]            # Skip JavaScript files
-    [--skip-turbolinks], [--no-skip-turbolinks]            # Skip turbolinks gem
---webpacker, [--webpack=WEBPACK]                           # Preconfigure Webpack with a particular framework (options: react, vue, angular, elm, stimulus)
-    [--skip-webpack-install], [--no-skip-webpack-install]  # Don't run Webpack install
+it will also generate view file in app>views>welcome>
+
+view file are part of controller's action
+
+###Step 2:
+Then create routes for welcome controller
+
+To view routes goto:
+
+config>routes.rb
+
+Add following:
+
+root 'welcome#index' 
+Here we are creating root route. Our app will start from this page (action)
+
+
+get('/about', { to: 'welcome#about', as: :about })
+This will redirect to /about if user will type localhost:3000/about in browsers address bars
+
+Lets do it!
 
