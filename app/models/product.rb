@@ -1,5 +1,6 @@
 class Product < ApplicationRecord
   # Associations
+  belongs_to :user
   has_many :reviews, dependent: :destroy
 
   # Validations
