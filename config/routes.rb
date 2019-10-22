@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
+  get 'sessions/new'
   resources :users, only: [:new, :create]
+  # Notice that `resource` is singular. Unlike `resources`,
+  # `resource` will create routes that are meant to do CRUD
+  # on a single thing. There will be no index route or any
+  # route with :id. When using singular resource, the controller
+  # it links to should still be plural.
+  resource :session, only: [:new, :create]
+  
   # get "/products/new" => "products#new", as: :new_product
   # post "/products" => "products#create", as: :products
   # get "/products/:id" => "products#show", as: :product
@@ -8,7 +16,7 @@ Rails.application.routes.draw do
   # get "/products/:id/edit" => "products#edit", as: :edit_product
   # patch "/products/:id" => "products#update"
 
-  resources :products  do
+  resources :products do
     # creates the following route for us:
     # post('/products/:product_id/reviews', { to: 'reviews#create', as: :product_reviews })
     # Which, due to the `as` creates a method called `product_reviews_path`
@@ -18,10 +26,10 @@ Rails.application.routes.draw do
     # "filled in"
     resources :reviews, shallow: true, only: [:create, :destroy]
   end
- 
-  root 'welcome#home'
-  get('/about', { to: 'welcome#about', as: :about })
-  get('/contact_us', { to: 'contacts#index', as: :contact })
-  post('/contact_us', { to: 'contacts#create' })
+
+  root "welcome#home"
+  get("/about", { to: "welcome#about", as: :about })
+  get("/contact_us", { to: "contacts#index", as: :contact })
+  post("/contact_us", { to: "contacts#create" })
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
