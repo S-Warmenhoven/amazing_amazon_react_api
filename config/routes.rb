@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   post "/products" => "products#create", as: :products
   get "/products/:id" => "products#show", as: :product
   get "/products" => "products#index"
-  get 'products/new'
-  get 'products/create'
+  delete "/products/:id" => "products#destroy"
+ 
   root 'welcome#home'
   get('/about', { to: 'welcome#about', as: :about })
   get('/contact_us', { to: 'contacts#index', as: :contact })
