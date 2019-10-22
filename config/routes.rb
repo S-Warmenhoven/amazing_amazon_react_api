@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     # the value for `:product_id` in the path
     # It returns the value: '/products/:product_id/reviews' with the :product_id
     # "filled in"
-    resources :reviews, shallow: true, only: [:create]
+    resources :reviews, shallow: true, only: [:create, :destroy]
   end
  
   root 'welcome#home'
