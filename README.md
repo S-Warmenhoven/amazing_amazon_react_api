@@ -1,13 +1,17 @@
 # README
 
-In this step we will generate a model to create Product using following command:
+In this lab we will generate a migration to change column in Products table using following command:
 
 ###Step 1:
-$>rails generate model Product title:string description:text price:integer
+$>rails generate migration ChangeProductPriceToFloat
 
-Above command will generate a `Products` model with migration for table `products` and its columns with respective types in one go .
+Above command will generate a skeleton change migration for table `products` and we will make final changes in migration .
 
-Once command the above command is executed, run following command to create tables in db:
+Once command the above command is executed,
+
+it will generate migration file in db>migration
+
+ run following command to create tables in db:
 
 $>rails db:migrate
 
@@ -16,29 +20,11 @@ To check your table is working accordingly goto rails console like this:
 $>rails c
 In console try to create product like this :
 
-rails-console>Product.create({title:'Apple',description:'Fresh Apple',price:5})
+rails-console>Product.create({title:'Apple',description:'Fresh Apple',price:5.0})
 
 Once created, you can return all the products like this:
 
 Product.all
-
-
-###Step 2:
-
-Lets create a seed file, because we would be needing a lots of data for manpulation:
-
-For that we would be needing a `faker` gem
-
-lets install it:
-
-gem 'faker'
-
-don't forget to run bundle install and then restart server.
-
-###Step 3:
-Now write code for generation 1000 products in seed file
-
-db/seeds.rb
 
 
 
