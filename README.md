@@ -1,30 +1,27 @@
 # README
 
-In this step we will generate controller using followint command:
+In this step we will generate 'contacts' controller using following command:
 ###Step 1:
-$>rails generate controller Welcome home about
+$>rails generate controller Contacts index create
 
-Above command will generate a welcome controller with home and about action.
+Above command will generate a `Contacts` controller with index and create action.
 
-it will also generate view file in app>views>welcome>
+it will also generate view file in app>views>contacts>
 
-view file are part of controller's action
+
 
 ###Step 2:
-Then create routes for welcome controller
 
-To view routes goto:
+Lets create a form which takes 3 inputs in app/views/contacts/index.html.erb
 
-config>routes.rb
-
-Add following:
-
-root 'welcome#index' 
-Here we are creating root route. Our app will start from this page (action)
+###Step 3:
+Update routes in config/routes.rb
 
 
-get('/about', { to: 'welcome#about', as: :about })
-This will redirect to /about if user will type localhost:3000/about in browsers address bars
+###Step 4:
+
+Using route helper generated from route, update a navbar in app/views/layouts/application.html.erb
+
 
 Lets do it!
 
