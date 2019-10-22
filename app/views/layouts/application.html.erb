@@ -20,7 +20,14 @@
           <%= link_to 'All Products', products_path %>
           |
           <%= link_to 'New Product', new_product_path %>
+          |
+          <%= link_to 'Sign Up', new_user_path %>
         </nav>
+        <% flash.each do |type, message| %>
+        <div class="flash-message alert alert-<%= type %>">
+          <%= message %>
+        </div>
+      <% end %>
     <%= yield %>
   </body>
 </html>

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'reviews/create'
+  resources :users, only: [:new, :create]
   # get "/products/new" => "products#new", as: :new_product
   # post "/products" => "products#create", as: :products
   # get "/products/:id" => "products#show", as: :product
