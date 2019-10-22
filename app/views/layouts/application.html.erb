@@ -25,6 +25,10 @@
         <span>Hello, <%= current_user.first_name %>!</span>
         |
         <%= link_to 'Sign Out', session_path, method: :delete %>
+        <% if current_user.admin? %>
+         |
+         <%= link_to 'Dashboard', admin_dashboard_index_path %>
+       <% end %>
       <% else %>
         <%= link_to 'Sign In', new_session_path %>
         |

@@ -6,6 +6,10 @@ Rails.application.routes.draw do
   # on a single thing. There will be no index route or any
   # route with :id. When using singular resource, the controller
   # it links to should still be plural.
+  namespace :admin do
+    resources :dashboard, only: [:index]
+  end
+
   resource :session, only: [:new, :create, :destroy]
 
   # get "/products/new" => "products#new", as: :new_product
