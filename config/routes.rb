@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'sessions/new'
+  
   resources :users, only: [:new, :create]
   # Notice that `resource` is singular. Unlike `resources`,
   # `resource` will create routes that are meant to do CRUD
@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     # "filled in"
     resources :reviews, shallow: true, only: [:create, :destroy]
   end
-
+  patch "/reviews/:id/toggle" => "reviews#toggle_hidden", as: "toggle_hidden"
   root "welcome#home"
   get("/about", { to: "welcome#about", as: :about })
   get("/contact_us", { to: "contacts#index", as: :contact })
