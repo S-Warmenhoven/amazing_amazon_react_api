@@ -35,3 +35,10 @@ But it will create a product with capitalize title and price = 1.0 like this:
 Where created a scope, similar to arrow functions in node which searches a word in title, example in rails console:
 
 Product.search('apple')
+
+#CRUD: New and Create
+
+$>rails g controller Products new create 
+
+Here g is the sugar syntax of generate.
+Note: Contoller should be always in plural form like: Products
