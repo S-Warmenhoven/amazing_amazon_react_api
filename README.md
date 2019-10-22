@@ -17,7 +17,16 @@ If it doesnot allow you to create product, use following to see validation error
 
 product.errors.messages
 
+#Lab: Product model callbacks
 
 
-Lets do it!
+We will update the model Product.rb as shown in solution
+
+We will test by creating product in rails console like this:
+
+product=Product.create({title:"banana-1",description:"Healthy Fruit"})
+
+But it will create a product with capitalize title and price = 1.0 like this:
+
+#<Product id: 1003, title: "Banana-1", description: "Healthy Fruit", price: 1.0, created_at: "2019-10-22 16:29:46", updated_at: "2019-10-22 16:29:46"> 
 
