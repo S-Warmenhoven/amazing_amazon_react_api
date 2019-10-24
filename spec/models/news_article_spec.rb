@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe NewsArticle, type: :model do
+  let(:current_user) { FactoryBot.create :user }
   def news_article
     @news_article ||= NewsArticle.new(
       title: 'Awesome Article',
-      description: 'This is just the best article.'
+      description: 'This is just the best article.',
+      user: current_user
     )
   end
 
@@ -12,6 +14,7 @@ RSpec.describe NewsArticle, type: :model do
     it "has a title" do
       n = news_article
       n.title = nil
+      # byebug
       n.valid?
       expect(n.errors).to have_key(:title)
     end
@@ -19,6 +22,7 @@ RSpec.describe NewsArticle, type: :model do
     it "has a unique title" do
       n = news_article
       n.save
+      # byebug
       n2 = NewsArticle.new(title: 'Awesome Article', description: "Test")
       n2.valid?
       expect(n2.errors).to have_key(:title)
@@ -71,11 +75,12 @@ RSpec.describe NewsArticle, type: :model do
 
   describe '.published' do
     it 'returns the published articles' do
-      n1 = NewsArticle.create(title: 'article 1', description: "Test")
-      n2 = NewsArticle.create(title: 'article 2', description: "Test")
-      n3 = NewsArticle.create(title: 'article 2', description: "Test")
+      n1 = NewsArticle.create(title: 'article 1', description: "Test", user:current_user)
+      n2 = NewsArticle.create(title: 'article 2', description: "Test", user:current_user)
+      n3 = NewsArticle.create(title: 'article 2', description: "Test", user:current_user)
       n1.publish
       n2.publish
+      
       expect([n1, n2]).to eq(NewsArticle.published)
     end
   end
