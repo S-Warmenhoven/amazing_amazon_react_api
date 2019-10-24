@@ -6,6 +6,7 @@ RSpec.describe NewsArticlesController, type: :controller do
   #   FactoryBot.create(:user)
   # end
   let(:current_user) { FactoryBot.create :user }
+  let(:unauthorized_user) { FactoryBot.create :user }
   describe "#new" do
     context "without user signed in" do
       it "redirects to the sign in page" do
@@ -45,7 +46,7 @@ RSpec.describe NewsArticlesController, type: :controller do
       before do
         session[:user_id] = current_user.id
       end
-
+    ###
       context "with valid parameters" do
         def valid_request
           post :create, params: {
@@ -146,50 +147,96 @@ RSpec.describe NewsArticlesController, type: :controller do
     end
   end
   describe "#edit" do
-    it "renders the edit template" do
-      news_article = FactoryBot.create(:news_article)
-      get :edit, params: { id: news_article.id }
-      expect(response).to render_template :edit
+    let!(:news_article) { FactoryBot.create :news_article, user: current_user }
+    context "with no user signed in" do
+      it "redirects to the sign in page" do
+        get :edit, params: { id: news_article.id }
+        expect(response).to redirect_to new_session_path
+      end
     end
 
-    it "sets an instance variable based on the article id that is passed" do
-      news_article = FactoryBot.create(:news_article)
-      get :edit, params: { id: news_article.id }
-      expect(assigns(:news_article)).to eq(news_article)
+    context "with user signed in" do
+      context "with authorized user" do
+
+        before do
+          request.session[:user_id] = current_user.id
+          get :edit, params: { id: news_article.id }
+        end
+
+        it "renders the edit template" do
+          get :edit, params: { id: news_article.id }
+          expect(response).to render_template :edit
+        end
+
+        it "sets an instance variable based on the article id that is passed" do
+          get :edit, params: { id: news_article.id }
+          expect(assigns(:news_article)).to eq(news_article)
+        end
+      end
+
+      context "with unauthorized user" do
+
+        before do
+          request.session[:user_id] = unauthorized_user.id
+          get :edit, params: { id: news_article.id }
+        end
+
+        it "redirects to the root path" do
+          expect(response).to redirect_to root_path
+        end
+
+        it "sets a flash message" do
+          expect(flash[:alert]).to be
+        end
+      end
     end
   end
 
   describe "#update" do
-    before do
-      @news_article = FactoryBot.create(:news_article)
-    end
+    let(:news_article) { FactoryBot.create :news_article, user: current_user }
 
     context "with valid parameters" do
-      it "updates the news article record with new attributes" do
-        new_title = "#{@news_article.title} Plus Changes!"
-        patch :update, params: { id: @news_article.id, news_article: { title: new_title } }
-        expect(@news_article.reload.title).to eq(new_title)
-      end
 
-      it "redirect to the news article show page" do
-        new_title = "#{@news_article.title} plus changes!"
-        patch :update, params: { id: @news_article.id, news_article: { title: new_title } }
-        expect(response).to redirect_to(@news_article)
-      end
+      context "with user signed in" do
+        context "with authorized user" do
+          before do
+            request.session[:user_id] = current_user.id
+          end
+          context 'with valid parameters' do
+            it "updates the news article record with new attributes" do
+              new_title = "#{news_article.title} Plus Changes!"
+              patch :update, params: {id: news_article.id, news_article: {title: new_title}}
+              expect(news_article.reload.title).to eq(new_title)
+            end
+  
+            it "redirect to the news article show page" do
+              new_title = "#{news_article.title} plus changes!"
+              patch :update, params: {id: news_article.id, news_article: {title: new_title}}
+              expect(response).to redirect_to(news_article)
+            end
+          end##
+        end
+      end##
     end
 
-    context "with invalid parameters" do
+    context 'with invalid parameters' do
       def invalid_request
-        patch :update, params: { id: @news_article.id, news_article: { title: nil } }
+        patch :update, params: {id: news_article.id, news_article: {title: nil}}
       end
 
-      it "doesn't update the news article with new attributes" do
-        expect { invalid_request }.not_to change { @news_article.reload.title }
-      end
+      context "with unauthorized user" do
+        before do
+          request.session[:user_id] = unauthorized_user.id
+          patch :update, params: {id: news_article.id, news_article: {title: "New title that shouldn't be updated anyways"}}
+        end
 
-      it "renders the edit template" do
-        invalid_request
-        expect(response).to render_template(:edit)
+        it "redirects to the root path" do
+          expect(response).to redirect_to root_path
+        end
+
+        it "sets a flash message" do
+          expect(flash[:alert]).to be
+        end
       end
     end
   end

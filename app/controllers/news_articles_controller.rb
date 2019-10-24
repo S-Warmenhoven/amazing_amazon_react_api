@@ -1,6 +1,7 @@
 class NewsArticlesController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update]
   before_action :find_news_article, only: [:show, :edit, :update, :destroy]
+  before_action :authorize!, only: [:edit, :update]
 
   def index
     @news_articles = NewsArticle.order(created_at: :DESC)
@@ -29,6 +30,7 @@ class NewsArticlesController < ApplicationController
 
  def update
    if @news_article.update news_article_params
+# byebug
     flash[:notice] = 'Article updated!'
     redirect_to @news_article
    else
@@ -50,6 +52,9 @@ class NewsArticlesController < ApplicationController
 
  def find_news_article
    @news_article = NewsArticle.find params[:id]
+ end
+ def authorize!
+  redirect_to root_path, alert: "access denied" unless can? :crud, @news_article
  end
 
 end
