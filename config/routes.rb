@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   patch "/reviews/:id/toggle" => "reviews#toggle_hidden", as: "toggle_hidden"
 
 
-  resources :news_articles, only: [:new, :create, :show]
+  resources :news_articles, only: [:new, :create, :show,  :index, :destroy]
   
   root "welcome#home"
   get("/about", { to: "welcome#about", as: :about })
