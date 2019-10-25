@@ -26,7 +26,7 @@
 # Returns the collection of objects that were destroyed; each will be frozen, to reflect that no changes should be made (since they can’t be persisted).
 # Note
 # Instantiation, callback execution, and deletion of each record can be time consuming when you’re removing many records at once. It generates at least one SQL DELETE query per record . If you want to delete many rows quickly, without concern for their associations or callbacks, use delete_all instead.
-
+Like.delete_all
 Review.delete_all
 Product.delete_all
 User.delete_all
@@ -69,12 +69,20 @@ NUM_OF_PRODUCTS.times do
   })
   if p.valid?
     rand(0..10).times.each do
-      Review.create(
+      r = Review.create(
         rating: Faker::Number.between(from:1, to:5),
         body: Faker::TvShows::Seinfeld.quote,
         product: p,
         user: users.sample
       )
+      if r.valid?
+        rand(0..5).times.each do
+          Like.create(
+            user: users.sample,
+            review: r
+          )
+        end
+      end
     end
   end
 end

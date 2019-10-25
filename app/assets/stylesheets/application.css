@@ -13,6 +13,8 @@
  *= require_tree .
  *= require_self
  */
+ @import "font-awesome";
+
  .flash-message {
     background-color: palegreen;
     border-radius: 5px;

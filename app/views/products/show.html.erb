@@ -50,5 +50,14 @@
     <% if can? :crud, @product %>
       <%= link_to "#{review.hidden ? 'Show' : 'Hide' }", toggle_hidden_path(review), method: :patch %>
     <% end %>
+    <% if user_signed_in? && can?(:like, review) %>
+      <% like = current_user.likes.find_by_review_id(review) %>
+      <% if like %>
+        <%= link_to fa_icon('thumbs-up 3x'), like_path(like), method: :delete %>
+      <% else %>
+        <%= link_to fa_icon('thumbs-o-up 3x'), review_likes_path(review), method: :post %>
+      <% end %>
+    <% end %>
+    (<%= pluralize review.likes.count, 'like' %>)
   </div>
 <% end %>

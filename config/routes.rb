@@ -29,7 +29,9 @@ Rails.application.routes.draw do
     # the value for `:product_id` in the path
     # It returns the value: '/products/:product_id/reviews' with the :product_id
     # "filled in"
-    resources :reviews, shallow: true, only: [:create, :destroy]
+    resources :reviews, shallow: true, only: [:create, :destroy] do
+      resources :likes, only: [:create, :destroy]
+    end
   end
   patch "/reviews/:id/toggle" => "reviews#toggle_hidden", as: "toggle_hidden"
 
