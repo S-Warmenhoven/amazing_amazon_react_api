@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     # "filled in"
     resources :reviews, shallow: true, only: [:create, :destroy] do
       resources :likes, only: [:create, :destroy]
+      resources :votes, only: [:create, :update, :destroy]
     end
     resources :favourites, shallow: true, only: [:create, :destroy]
   end

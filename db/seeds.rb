@@ -30,6 +30,7 @@ Like.delete_all
 Review.delete_all
 Product.delete_all
 User.delete_all
+Vote.delete_all
 
 PASSWORD = "supersecret"
 NUM_OF_USERS = 20
@@ -82,6 +83,13 @@ NUM_OF_PRODUCTS.times do
             review: r
           )
         end
+        users.shuffle.slice(0..rand(users.count)).each do |user|
+          Vote.create(
+            review: r,
+            user: user,
+            is_up: [true, false].sample
+          )
+        end
       end
     end
   end
@@ -91,4 +99,7 @@ end
 puts "Created #{User.count} users"
 puts "Created #{Product.count} products"
 puts "Created #{Review.count} reviews"
+puts "Created #{Like.count} likes"
+puts "Created #{Favourite.count} favourites"
+puts "Created #{Vote.count} votes"
 puts "Login as admin with #{super_user.email} and password of '#{PASSWORD}'!"

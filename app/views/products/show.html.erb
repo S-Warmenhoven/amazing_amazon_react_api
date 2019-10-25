@@ -59,7 +59,7 @@
     <% if can? :crud, @product %>
       <%= link_to "#{review.hidden ? 'Show' : 'Hide' }", toggle_hidden_path(review), method: :patch %>
     <% end %>
-    <% if user_signed_in? && can?(:like, review) %>
+    <% if can?(:like, review) %>
       <% like = current_user.likes.find_by_review_id(review) %>
       <% if like %>
         <%= link_to fa_icon('thumbs-up 3x'), like_path(like), method: :delete %>
@@ -67,6 +67,24 @@
         <%= link_to fa_icon('thumbs-o-up 3x'), review_likes_path(review), method: :post %>
       <% end %>
     <% end %>
-    (<%= pluralize review.likes.count, 'like' %>)
+    (<%= pluralize review.likes.count, 'like' %>) |
+
+  <% vote = review.votes.find_by(user: current_user) %>
+  <span class="vote-widget">
+    <% if vote.nil? %>
+      <%= link_to(fa_icon('arrow-up'), review_votes_path(review, is_up: true), method: :post) %>
+      <%= review.vote_total %>
+      <%= link_to(fa_icon('arrow-down'), review_votes_path(review, is_up: false), method: :post) %>
+    <% elsif vote.is_up? %>
+      <%= link_to(fa_icon('arrow-up'), vote_path(vote), method: :delete, class: 'active') %>
+      <%= review.vote_total %>
+      <%= link_to(fa_icon('arrow-down'), vote_path(vote, is_up: false), method: :patch) %>
+    <% else %>
+      <%= link_to(fa_icon('arrow-up'), vote_path(vote, is_up: true), method: :patch) %>
+      <%= review.vote_total %>
+      <%= link_to(fa_icon('arrow-down'), vote_path(vote), method: :delete, class: 'active') %>
+    <% end %>
+  </span>
+  (<%= review.vote_total %>)
   </div>
 <% end %>
