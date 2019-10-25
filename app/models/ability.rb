@@ -53,5 +53,13 @@ class Ability
       like.user == user
     end
 
+    can :favourite, Product do |product|
+      product.user != user
+     end
+ 
+     can :destroy, Favourite do |favourite|
+      favourite.user == user
+     end
+
   end
 end

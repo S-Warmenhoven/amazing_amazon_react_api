@@ -8,6 +8,15 @@
 <% if can? :destroy, @product %>
   <%= link_to "Delete Product", product_path(@product), method: :delete, data: { confirm: 'Are you sure that you want to delete this product?' } %>
 <% end %>
+<% if user_signed_in? && can?(:favourite, @product) %>
+  <% if @favourite.present? %>
+    <%= link_to fa_icon('star'), favourite_path(@favourite), method: :delete, style: 'color: yellow;' %>
+  <% else %>
+    <%= link_to fa_icon('star-o'), product_favourites_path(@product), method: :post, style: 'color: lightgrey;' %>
+  <% end %>
+<% end %>
+<hr />
+<h3>Leave a review</h3>
 
 <%#
   New Review Form
@@ -32,7 +41,7 @@
   </div>
   <%= f.submit %>
 <% end %>
-
+<hr />
 <h3>Reviews</h3>
 <%#
   Display all of the reviews for this product

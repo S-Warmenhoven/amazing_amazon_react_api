@@ -2,6 +2,8 @@ class Product < ApplicationRecord
   # Associations
   belongs_to :user
   has_many :reviews, dependent: :destroy
+  has_many :favourites, dependent: :destroy
+  has_many :favouriters, through: :favourites, source: :user
 
   # Validations
   validates(:title, presence: true, uniqueness: true, case_sensitive: false)
@@ -11,16 +13,17 @@ class Product < ApplicationRecord
   # Call Backs
   before_validation :set_default_value_price
   before_save :capitalize_product_title
-  
+
   # Custom methods
-  scope(:search, ->(query){where("title ILIKE?","%#{query}%")})
+  scope(:search, ->(query) { where("title ILIKE?", "%#{query}%") })
 
-private
-def set_default_value_price
-    self.price ||=1
-end
+  private
 
-def capitalize_product_title
+  def set_default_value_price
+    self.price ||= 1
+  end
+
+  def capitalize_product_title
     self.title.capitalize!
-end
+  end
 end

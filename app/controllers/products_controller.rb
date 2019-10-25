@@ -42,6 +42,7 @@ class ProductsController < ApplicationController
     else
       @reviews = @product.reviews.where(hidden: false).order(created_at: :desc)
     end
+    @favourite = @product.favourites.find_by_user_id current_user if user_signed_in?
   end
   def edit
     

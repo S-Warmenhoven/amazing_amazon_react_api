@@ -32,7 +32,9 @@ Rails.application.routes.draw do
     resources :reviews, shallow: true, only: [:create, :destroy] do
       resources :likes, only: [:create, :destroy]
     end
+    resources :favourites, shallow: true, only: [:create, :destroy]
   end
+  resources :favourites, only: [:index]
   patch "/reviews/:id/toggle" => "reviews#toggle_hidden", as: "toggle_hidden"
 
 

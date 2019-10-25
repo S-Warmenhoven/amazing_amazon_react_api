@@ -24,6 +24,8 @@
           <% if user_signed_in? %>
         <span>Hello, <%= current_user.first_name %>!</span>
         |
+        <%= link_to 'Favourite Products', favourites_path %>
+        |
         <%= link_to 'Sign Out', session_path, method: :delete %>
         <% if current_user.admin? %>
          |
