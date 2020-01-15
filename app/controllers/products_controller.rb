@@ -65,7 +65,7 @@ class ProductsController < ApplicationController
    def product_params
     # strong parameters are used primarily as a security practice to help
     # prevent accidentally allowing users to update sensitive model attributes.
-    params.require(:product).permit(:title, :description, :price)
+    params.require(:product).permit(:title, :description, :price, tag_ids: [])
   end
    def find_product
     @product = Product.find params[:id]

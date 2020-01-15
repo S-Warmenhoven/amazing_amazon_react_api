@@ -26,6 +26,7 @@
 # Returns the collection of objects that were destroyed; each will be frozen, to reflect that no changes should be made (since they can’t be persisted).
 # Note
 # Instantiation, callback execution, and deletion of each record can be time consuming when you’re removing many records at once. It generates at least one SQL DELETE query per record . If you want to delete many rows quickly, without concern for their associations or callbacks, use delete_all instead.
+Tag.destroy_all
 Like.delete_all
 Review.delete_all
 Product.delete_all
@@ -58,6 +59,14 @@ end
 
 users = User.all
 
+30.times.each do
+  Tag.create(
+    name: Faker::Book.genre
+  )
+end
+
+tags = Tag.all
+
 NUM_OF_PRODUCTS.times do
   created_at = Faker::Date.backward(days:365 * 5)
   p=Product.create({
@@ -76,13 +85,17 @@ NUM_OF_PRODUCTS.times do
         product: p,
         user: users.sample
       )
+      ####
+      r.likers = users.shuffle.slice(0..rand(users.count)) if r.valid?
+      p.tags = tags.shuffle.slice(0..rand(5))
+      p.favouriters = users.shuffle.slice(0..rand(users.count))
       if r.valid?
-        rand(0..5).times.each do
-          Like.create(
-            user: users.sample,
-            review: r
-          )
-        end
+        # rand(0..5).times.each do
+        #   Like.create(
+        #     user: users.sample,
+        #     review: r
+        #   )
+        # end
         users.shuffle.slice(0..rand(users.count)).each do |user|
           Vote.create(
             review: r,
@@ -97,6 +110,7 @@ end
 
 
 puts "Created #{User.count} users"
+puts "Created #{Tag.count} tags"
 puts "Created #{Product.count} products"
 puts "Created #{Review.count} reviews"
 puts "Created #{Like.count} likes"

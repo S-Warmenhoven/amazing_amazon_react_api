@@ -2,6 +2,11 @@
 <p>Description: <%= @product.description %></p>
 <p>Price: <%= number_to_currency(@product.price) %></p>
 <p>Sold by: <%= @product.user.full_name %></p>
+<p>User: <%= @product.user.full_name %></p>
+<div class="tag-list">
+  
+  Tags: <%= @product.tags.map(&:name).join(", ") %>
+</div>
 <% if can? :edit, @product %>
   <%= link_to "Edit Product", edit_product_path(@product) %> |
 <% end %>
