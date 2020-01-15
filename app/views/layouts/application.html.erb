@@ -21,6 +21,8 @@
           |
           <%= link_to 'New Product', new_product_path %>
           |
+          <%= link_to 'Tags', tags_path %>
+          |
           <% if user_signed_in? %>
         <span>Hello, <%= current_user.first_name %>!</span>
         |

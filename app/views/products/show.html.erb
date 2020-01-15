@@ -4,8 +4,11 @@
 <p>Sold by: <%= @product.user.full_name %></p>
 <p>User: <%= @product.user.full_name %></p>
 <div class="tag-list">
-  
-  Tags: <%= @product.tags.map(&:name).join(", ") %>
+  Tags:
+  <% @product.tags.order(:name).each do |tag| %>
+    <%= link_to tag.name, tag_path(tag) %>
+  <% end %>
+   <%#= @product.tags.map(&:name).join(", ") %>
 </div>
 <% if can? :edit, @product %>
   <%= link_to "Edit Product", edit_product_path(@product) %> |

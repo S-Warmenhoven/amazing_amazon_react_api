@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   
 
+  get 'tags/show'
+  get 'tags/index'
   resources :users, only: [:new, :create]
   # Notice that `resource` is singular. Unlike `resources`,
   # `resource` will create routes that are meant to do CRUD
@@ -40,7 +42,7 @@ Rails.application.routes.draw do
 
 
   resources :news_articles
-  
+  resources :tags, only: [:show, :index]
   root "welcome#home"
   get("/about", { to: "welcome#about", as: :about })
   get("/contact_us", { to: "contacts#index", as: :contact })
