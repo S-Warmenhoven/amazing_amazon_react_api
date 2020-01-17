@@ -43,6 +43,7 @@ Rails.application.routes.draw do
 
   resources :news_articles
   resources :tags, only: [:show, :index]
+  resources :votes, shallow: true, only: [:create, :update, :destroy]
   root "welcome#home"
   get("/about", { to: "welcome#about", as: :about })
   get("/contact_us", { to: "contacts#index", as: :contact })
