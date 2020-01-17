@@ -48,5 +48,11 @@ Rails.application.routes.draw do
   get("/about", { to: "welcome#about", as: :about })
   get("/contact_us", { to: "contacts#index", as: :contact })
   post("/contact_us", { to: "contacts#create" })
+  match(
+  "/delayed_job",
+  to: DelayedJobWeb,
+  anchor: false,
+  via: [:get, :post]
+)
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
