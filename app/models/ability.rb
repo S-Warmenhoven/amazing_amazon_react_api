@@ -57,7 +57,7 @@ class Ability
       product.user != user
      end
  
-     can :destroy, Favourite do |favourite|
+    can :destroy, Favourite do |favourite|
       favourite.user == user
     end
 

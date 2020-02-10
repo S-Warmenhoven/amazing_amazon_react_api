@@ -31,6 +31,11 @@ class ProductsController < ApplicationController
   def index
     # @products = Product.all
     @products = Product.order(created_at: :DESC)
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @products }
+      # format.csv { render plain: 'blah, blah, blah'}
+    end
   end
 
   def show
@@ -47,7 +52,13 @@ class ProductsController < ApplicationController
       @reviews = @product.reviews.where(hidden: false).order(created_at: :desc)
     end
     @favourite = @product.favourites.find_by_user_id current_user if user_signed_in?
+
+    # respond_to do |format|
+    #   format.json { render json: @product }
+    #   format.csv { render plain: 'blah, blah, blah'}
+    # end
   end
+  
   def edit
     
   end

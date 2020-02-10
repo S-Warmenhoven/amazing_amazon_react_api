@@ -53,6 +53,20 @@ Rails.application.routes.draw do
   to: DelayedJobWeb,
   anchor: false,
   via: [:get, :post]
-)
+  )
+
+  namespace :api, defaults: { format: :json } do 
+    # /api...
+    namespace :v1 do 
+      # /api/v1...
+      resources :products
+        #/api/v1/products 
+        resource :session, only: [:create, :destroy]
+        #/api/v1/session
+        resource :users, only: [:create] do
+          get :current, on: :collection
+        end
+    end
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
